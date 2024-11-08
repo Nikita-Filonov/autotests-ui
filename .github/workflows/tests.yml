@@ -34,20 +34,18 @@ jobs:
         run: |
           pytest -m regression --alluredir=allure-results --numprocesses 2
 
-      - name: Setup Allure
-        uses: allure-framework/allure-action@v2
-        with:
-          allure_version: '2.21.0'  # укажите нужную версию
-
-      - name: Generate Allure report
+      - name: Build test report
+        uses: simple-elf/allure-report-action@v1.7
         if: always()
-        run: |
-          allure generate allure-results --clean -o allure-report
+        with:
+          gh_pages: gh-pages
+          allure_history: allure-history
+          allure_results: build/allure-results
 
-      - name: Deploy Allure report to GitHub Pages
-        if: always()  # Публиковать только если тесты прошли успешно
+      - name: Publish test report
         uses: peaceiris/actions-gh-pages@v3
+        if: always()
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./allure-report
-          publish_branch: gh-pages  # Ветка для GitHub Pages
+          publish_branch: gh-pages
+          publish_dir: allure-history
