@@ -32,7 +32,12 @@ jobs:
 
       - name: Run Playwright tests with pytest and generate Allure results
         run: |
-          pytest -m regression --alluredir=allure-results
+          pytest -m regression --alluredir=allure-results --numprocesses 2
+
+      - name: Setup Allure
+        uses: allure-framework/allure-action@v2
+        with:
+          allure_version: '2.21.0'  # укажите нужную версию
 
       - name: Generate Allure report
         if: always()
