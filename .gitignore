@@ -1,0 +1,11 @@
+# python
+.venv
+
+# allure
+allure-results
+allure-report
+
+# testing
+videos
+tracing
+browser-state.json
